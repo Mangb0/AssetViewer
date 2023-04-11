@@ -1,6 +1,5 @@
 <!-- <template>
   <div class="about">
-    <v-btn></v-btn>
     <div class="card">
       <div ref="canvasContainer1" class="canvas"></div>
       <h3 class="card-title">Card 1</h3>
@@ -14,17 +13,58 @@
   </div>
 </template> -->
 <template>
-  <v-content>
+  <!-- <div class="card">
+    <div ref="canvasContainer1" class="canvas"></div>
+    <h3 class="card-title">Card 1</h3>
+    <p>This is the description for Card 1</p>
+  </div> -->
+  <v-container fluid grid-list-md>
+    <v-layout row wrap>
+      <v-flex xs12 md6 lg3>
+        <v-card width="400" height="400">
+          <v-card-item>
+            <div ref="canvasContainer1" class="canvas">test</div>
+          </v-card-item>
+          <v-card-title> test </v-card-title>
+          <v-card-subtitle> test </v-card-subtitle>
+
+          <v-card-text> This is content </v-card-text>
+        </v-card>
+      </v-flex>
+
+      <v-flex xs12 md6 lg3>
+        <v-card width="400">
+          <v-card-item>
+            <div ref="canvasContainer2" class="canvas">test</div>
+          </v-card-item>
+          <v-card-title> test </v-card-title>
+          <v-card-subtitle> test </v-card-subtitle>
+
+          <v-card-text> This is content </v-card-text>
+        </v-card>
+      </v-flex>
+
+      <v-flex xs12 md6 lg3>
+        <v-card width="400">
+          <v-card-item>
+            <div class="canvas">test</div>
+          </v-card-item>
+          <v-card-title> test </v-card-title>
+          <v-card-subtitle> test </v-card-subtitle>
+
+          <v-card-text> This is content </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
+  <!-- <v-content>
     <v-container fluid grid-list-md>
       <v-layout row wrap>
         <v-flex v-for="item in state.items" :key="item.id" xs12 md6 lg3>
           <v-card width="95%">
-            <v-card-media
-              ref="canvasContainer1"
-              class="canvas"
-              fill-height
-              height="400px"
-            ></v-card-media>
+            <v-card-item>
+              <div ref="canvasContainer1" class="canvas"></div>
+            </v-card-item>
             <v-card-title primary-title>
               <div>
                 <h3 class="headline mb-0" v-text="item.itemName"></h3>
@@ -37,7 +77,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-  </v-content>
+  </v-content> -->
 </template>
 
 <script>
@@ -49,17 +89,7 @@ import * as THREE from "three";
 export default {
   setup() {
     const state = {
-      items: [
-        { id: 1, itemName: "asdsa" },
-        { id: 2, itemName: "asdsa" },
-        { id: 3, itemName: "asdsa" },
-        { id: 4, itemName: "asdsa" },
-        { id: 5, itemName: "asdsa" },
-        { id: 6, itemName: "asdsa" },
-        { id: 7, itemName: "asdsa" },
-        { id: 8, itemName: "asdsa" },
-        { id: 9, itemName: "asdsa" },
-      ],
+      items: [{ id: 1, itemName: "asdsa" }],
     };
 
     const canvasContainer1 = ref(null);
@@ -120,7 +150,7 @@ export default {
 };
 </script>
 
-<!-- <style scoped>
+<style scoped>
 .card {
   background-color: white;
   padding: 1rem;
@@ -141,4 +171,4 @@ export default {
   margin: 0;
   font-size: 1.2rem;
 }
-</style> -->
+</style>
