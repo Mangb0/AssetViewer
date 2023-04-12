@@ -18,45 +18,57 @@
     <h3 class="card-title">Card 1</h3>
     <p>This is the description for Card 1</p>
   </div> -->
-  <v-container fluid grid-list-md>
-    <v-layout row wrap>
-      <v-flex xs12 md6 lg3>
-        <v-card width="400" height="400">
-          <v-card-item>
-            <div ref="canvasContainer1" class="canvas">test</div>
-          </v-card-item>
-          <v-card-title> test </v-card-title>
-          <v-card-subtitle> test </v-card-subtitle>
+  <v-layout justify-center>
+    <v-flex xs12 sm6>
+      <v-card>
+        <v-container fluid grid-list-md>
+          <v-layout row wrap>
+            <v-flex>
+              <v-card>
+                <v-card-item>
+                  <div ref="canvasContainer1" class="canvas">test</div>
+                </v-card-item>
+                <v-card-title> test </v-card-title>
+                <v-card-subtitle> test </v-card-subtitle>
+                <v-card-text> This is content </v-card-text>
+                <v-card-actions>
+                  <v-btn flat color="orange" class="body-1">Inquire Item</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
 
-          <v-card-text> This is content </v-card-text>
-        </v-card>
-      </v-flex>
+            <v-flex>
+              <v-card>
+                <v-card-item>
+                  <div ref="canvasContainer2" class="canvas">test</div>
+                </v-card-item>
+                <v-card-title> test </v-card-title>
+                <v-card-subtitle> test </v-card-subtitle>
+                <v-card-text> This is content </v-card-text>
+                <v-card-actions>
+                  <v-btn flat color="orange" class="body-1">Inquire Item</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
 
-      <v-flex xs12 md6 lg3>
-        <v-card width="400">
-          <v-card-item>
-            <div ref="canvasContainer2" class="canvas">test</div>
-          </v-card-item>
-          <v-card-title> test </v-card-title>
-          <v-card-subtitle> test </v-card-subtitle>
-
-          <v-card-text> This is content </v-card-text>
-        </v-card>
-      </v-flex>
-
-      <v-flex xs12 md6 lg3>
-        <v-card width="400">
-          <v-card-item>
-            <div class="canvas">test</div>
-          </v-card-item>
-          <v-card-title> test </v-card-title>
-          <v-card-subtitle> test </v-card-subtitle>
-
-          <v-card-text> This is content </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+            <v-flex>
+              <v-card>
+                <v-card-item>
+                  <div class="canvas">test</div>
+                </v-card-item>
+                <v-card-title> test </v-card-title>
+                <v-card-subtitle> test </v-card-subtitle>
+                <v-card-text> This is content </v-card-text>
+                <v-card-actions>
+                  <v-btn flat color="orange" class="body-1">Inquire Item</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card>
+    </v-flex>
+  </v-layout>
   <!-- <v-content>
     <v-container fluid grid-list-md>
       <v-layout row wrap>
@@ -151,24 +163,24 @@ export default {
 </script>
 
 <style scoped>
-.card {
+/* .card {
   background-color: white;
   padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-top: 2rem;
-  height: 400px; /* Set height of canvas container */
-  width: 400px; /* Set width of canvas container */
+  height: 400px;
+  width: 400px;
   position: relative;
-}
+} */
 
 .canvas {
-  height: 200px; /* Set height of canvas container */
-  width: 200px; /* Set width of canvas container */
+  height: 200px;
+  width: 200px;
 }
 
-.card-title {
+/* .card-title {
   margin: 0;
   font-size: 1.2rem;
-}
+} */
 </style>
