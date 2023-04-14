@@ -1,10 +1,15 @@
 <template>
   <div>
-    <div v-for="sceneId in sceneIds" :key="sceneId" class="canvas-container">
+    <canvas
+      v-for="canvas in state.items"
+      :key="canvas.index"
+      :id="canvas.id"
+    ></canvas>
+    <!-- <div v-for="sceneId in sceneIds" :key="sceneId" class="canvas-container">
       <div ref="canvasRef" class="canvas"></div>
       <div class="scene-title">Scene {{ sceneId }}</div>
       <button class="inquire-item-btn">Inquire Item</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -18,33 +23,72 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default {
   setup() {
-    // const sceneIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-    // const canvasRefs = ref([]);
-    const makeScene = (elem) => {
+    const state = {
+      items: [
+        { index: 1, id: "defaultCanvas0" },
+        { index: 2, id: "defaultCanvas1" },
+      ],
+    };
+
+    onMounted(() => {
+      initThreeJs("defaultCanvas0", "cube");
+      initThreeJs("defaultCanvas1", "cone");
+    });
+
+    const initThreeJs = (canvasContainer, shape) => {
+      // Create the scene, camera, and renderer
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(
-        45,
-        elem.clientWidth / elem.clientHeight,
+        75,
+        // canvasContainer.clientWidth / canvasContainer.clientHeight,
+        2,
         0.1,
         1000
       );
-      camera.position.z = 2;
-      camera.position.set(0, 1, 2);
-      camera.lookAt(0, 0, 0);
+      camera.position.z = 3;
 
-      {
-        const color = 0xffffff;
-        const intensity = 1;
-        const light = new THREE.DirectionalLight(color, intensity);
-        light.position.set(-1, 2, 4);
-        scene.add(light);
+      const canvas = document.getElementById(canvasContainer);
+      const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+      });
+      renderer.setSize(
+        // canvasContainer.clientWidth,
+        // canvasContainer.clientHeight
+        200,
+        200
+      );
+      // canvasContainer.appendChild(renderer.domElement);
+
+      // Add a cube or cone to the scene
+      let geometry, material;
+      if (shape === "cube") {
+        geometry = new THREE.BoxGeometry();
+        material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      } else if (shape === "cone") {
+        geometry = new THREE.ConeGeometry(1, 2, 32);
+        material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
       }
+      const mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
+      // Create OrbitControls
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableZoom = false;
+      controls.enableDamping = true;
 
-      return { scene, camera, elem };
+      // Animation loop
+      const animate = () => {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      };
+
+      animate();
     };
 
     return {
-      makeScene,
+      // canvasContainer1,
+      // canvasContainer2,
+      state,
     };
   },
 };
