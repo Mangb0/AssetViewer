@@ -49,7 +49,7 @@
         <v-col v-for="item in state.items" :key="item.id" :cols="6">
           <v-card>
             <v-card-item>
-              <div ref="item.itemName" class="canvas" cover>
+              <div ref="`item.itemName`" class="canvas" cover>
                 {{ item.itemName }}
               </div>
             </v-card-item>
@@ -85,7 +85,7 @@
         <v-col :key="3" :cols="6">
           <v-card>
             <v-card-item>
-              <div ref="canvasContainer11" class="canvas" cover></div>
+              <div ref="canvasContainer1" class="canvas" cover></div>
             </v-card-item>
 
             <v-card-title>test</v-card-title>
@@ -119,7 +119,7 @@
         <v-col :key="4" :cols="6">
           <v-card>
             <v-card-item>
-              <div ref="canvasContainer22" class="canvas" cover></div>
+              <div ref="canvasContainer2" class="canvas" cover></div>
             </v-card-item>
 
             <v-card-title>test</v-card-title>
