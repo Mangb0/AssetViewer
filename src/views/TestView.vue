@@ -1,24 +1,54 @@
 <template>
+  <v-container fluid>
+    <v-row dense>
+      <v-col v-for="canvas in state.items" :key="canvas.id" :cols="6">
+        <v-card>
+          <v-card-item>
+            <canvas :id="canvas.id" class="canvas"> </canvas>
+          </v-card-item>
+
+          <v-card-title>test</v-card-title>
+          <v-card-actions>
+            <v-btn flat color="orange" class="body-1">Inquire Item</v-btn>
+            <v-spacer></v-spacer>
+
+            <v-btn
+              size="small"
+              color="surface-variant"
+              variant="text"
+              icon="mdi-heart"
+            ></v-btn>
+
+            <v-btn
+              size="small"
+              color="surface-variant"
+              variant="text"
+              icon="mdi-bookmark"
+            ></v-btn>
+
+            <v-btn
+              size="small"
+              color="surface-variant"
+              variant="text"
+              icon="mdi-share-variant"
+            ></v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
   <div>
-    <canvas
+    <!-- <canvas
       v-for="canvas in state.items"
       :key="canvas.index"
       :id="canvas.id"
-    ></canvas>
-    <!-- <div v-for="sceneId in sceneIds" :key="sceneId" class="canvas-container">
-      <div ref="canvasRef" class="canvas"></div>
-      <div class="scene-title">Scene {{ sceneId }}</div>
-      <button class="inquire-item-btn">Inquire Item</button>
-    </div> -->
+    ></canvas> -->
   </div>
 </template>
 
 <script>
-// eslint-disable-next-line
-import { ref, onMounted } from "vue";
-// eslint-disable-next-line
+import { onMounted } from "vue";
 import * as THREE from "three";
-// eslint-disable-next-line
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default {
@@ -52,10 +82,10 @@ export default {
         canvas: canvas,
       });
       renderer.setSize(
-        // canvasContainer.clientWidth,
-        // canvasContainer.clientHeight
-        200,
-        200
+        canvas.clientWidth,
+        canvas.clientHeight
+        // 200,
+        // 200
       );
       // canvasContainer.appendChild(renderer.domElement);
 
@@ -95,27 +125,9 @@ export default {
 </script>
 
 <style scoped>
-#c {
-  position: fixed;
-  left: 0;
-  top: 0;
+.canvas {
   width: 100%;
   height: 100%;
-  display: block;
   z-index: -1;
-}
-.diagram {
-  display: inline-block;
-  width: 5em;
-  height: 3em;
-  border: 1px solid black;
-}
-.left {
-  float: left;
-  margin-right: 0.25em;
-}
-.right {
-  float: right;
-  margin-left: 0.25em;
 }
 </style>
