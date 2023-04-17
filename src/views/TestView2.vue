@@ -1,43 +1,4 @@
 <template>
-  <v-container fluid>
-    <v-row dense>
-      <v-col v-for="canvas in state.items" :key="canvas.id" :cols="6">
-        <v-card>
-          <!-- <v-card-item>
-            <canvas :id="canvas.id" class="canvas"> </canvas>
-          </v-card-item> -->
-
-          <v-card-title>test</v-card-title>
-          <v-card-actions>
-            <v-btn flat color="orange" class="body-1">Inquire Item</v-btn>
-            <v-spacer></v-spacer>
-
-            <v-btn
-              size="small"
-              color="surface-variant"
-              variant="text"
-              icon="mdi-heart"
-            ></v-btn>
-
-            <v-btn
-              size="small"
-              color="surface-variant"
-              variant="text"
-              icon="mdi-bookmark"
-            ></v-btn>
-
-            <v-btn
-              size="small"
-              color="surface-variant"
-              variant="text"
-              icon="mdi-share-variant"
-            ></v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
-
   <ul class="cards">
     <li class="cards__item">
       <div class="card">
@@ -55,7 +16,7 @@
     </li>
     <li class="cards__item">
       <div class="card">
-        <div class="card__image card__image--river"></div>
+        <canvas id="defaultCanvas1" class="card__image"> </canvas>
         <div class="card__content">
           <div class="card__title">Flex Grow</div>
           <p class="card__text">
@@ -165,6 +126,17 @@ export default {
         renderer.render(scene, camera);
       };
 
+      const setSize = () => {
+        const rect = document
+          .getElementById("defaultCanvas0")
+          .getBoundingClientRect();
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        console.log("rect", rect.width, rect.height);
+        console.log("resize", canvas.clientWidth, canvas.clientHeight);
+      };
+
+      // 이벤트
+      window.addEventListener("resize", setSize);
       animate();
     };
 
@@ -264,18 +236,6 @@ img {
   content: "";
   display: block;
   padding-top: 66.6%;
-}
-.card__image--flowers {
-  background-image: url(https://unsplash.it/800/600?image=82);
-}
-.card__image--river {
-  background-image: url(https://unsplash.it/800/600?image=11);
-}
-.card__image--record {
-  background-image: url(https://unsplash.it/800/600?image=39);
-}
-.card__image--fence {
-  background-image: url(https://unsplash.it/800/600?image=59);
 }
 .card__title {
   color: #696969;
