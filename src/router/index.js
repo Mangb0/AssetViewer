@@ -31,6 +31,11 @@ const routes = [
     nameL: "resize",
     component: () => import("../views/TestResize.vue"),
   },
+  {
+    path: "/detail",
+    nameL: "detail",
+    component: () => import("../views/DetailView.vue"),
+  },
 ];
 
 const router = createRouter({

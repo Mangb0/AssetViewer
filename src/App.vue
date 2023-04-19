@@ -6,7 +6,8 @@
         <router-link to="/about">About</router-link> |
         <router-link to="/test">test</router-link> |
         <router-link to="/test2">test2</router-link> |
-        <router-link to="/resize">resize</router-link>
+        <router-link to="/resize">resize</router-link> |
+        <router-link to="/detail">detail</router-link>
       </nav>
       <router-view />
     </v-main>
