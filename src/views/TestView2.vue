@@ -1,10 +1,10 @@
 <template>
   <ul class="cards">
-    <li class="cards__item">
+    <li class="cards__item" v-for="canvas in state.items" :key="canvas.index">
       <div class="card">
-        <canvas id="defaultCanvas0" class="card__image"> </canvas>
+        <canvas :id="canvas.id" class="card__image"> </canvas>
         <div class="card__content">
-          <div class="card__title">Flex</div>
+          <div class="card__title">{{ canvas.id }}</div>
           <p class="card__text">
             This is the shorthand for flex-grow, flex-shrink and flex-basis
             combined. The second and third parameters (flex-shrink and
@@ -14,7 +14,7 @@
         </div>
       </div>
     </li>
-    <li class="cards__item">
+    <!-- <li class="cards__item">
       <div class="card">
         <canvas id="defaultCanvas1" class="card__image"> </canvas>
         <div class="card__content">
@@ -31,7 +31,7 @@
     </li>
     <li class="cards__item">
       <div class="card">
-        <div class="card__image card__image--record"></div>
+        <canvas id="defaultCanvas2" class="card__image"> </canvas>
         <div class="card__content">
           <div class="card__title">Flex Shrink</div>
           <p class="card__text">
@@ -41,7 +41,7 @@
           <button class="btn btn--block card__btn">Button</button>
         </div>
       </div>
-    </li>
+    </li> -->
     <li class="cards__item">
       <div class="card">
         <div class="card__image card__image--flowers"></div>
@@ -71,12 +71,16 @@ export default {
       items: [
         { index: 1, id: "defaultCanvas0" },
         { index: 2, id: "defaultCanvas1" },
+        { index: 3, id: "defaultCanvas2" },
+        { index: 4, id: "defaultCanvas3" },
       ],
     };
 
     onMounted(() => {
       initThreeJs("defaultCanvas0", "cube");
       initThreeJs("defaultCanvas1", "cone");
+      initThreeJs("defaultCanvas2", "cube");
+      initThreeJs("defaultCanvas3", "cone");
     });
 
     const initThreeJs = (canvasContainer, shape) => {
