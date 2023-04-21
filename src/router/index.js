@@ -36,6 +36,11 @@ const routes = [
     nameL: "detail",
     component: () => import("../views/DetailView.vue"),
   },
+  {
+    path: "/fbx",
+    nameL: "fbx",
+    component: () => import("../views/FbxLoader.vue"),
+  },
 ];
 
 const router = createRouter({
