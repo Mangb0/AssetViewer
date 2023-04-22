@@ -24,8 +24,11 @@ export default {
       scene = new THREE.Scene();
       scene.background = new THREE.Color("#eee"); //배경 컬러
       camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 0.1, 2000);
-      camera.position.z = 5;
+      camera.position.z = 3;
+      camera.position.x = 5;
+      camera.position.y = 20;
       // camera.position.set(50, 50, 100);
+      camera.lookAt(0, 0, 0);
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(WIDTH, HEIGHT);
@@ -51,6 +54,11 @@ export default {
       mesh.position.set(0, -2, 0);
       mesh.receiveShadow = true;
       scene.add(mesh);
+
+      const boxGeometry = new THREE.BoxGeometry();
+      const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      const cube = new THREE.Mesh(boxGeometry, boxMaterial);
+      scene.add(cube);
 
       {
         //조명 넣기
@@ -88,7 +96,8 @@ export default {
       const fbxLoader = new FBXLoader();
 
       fbxLoader.load(
-        "./model/Taunt.fbx",
+        "./model/car.FBX",
+        // "./model/Taunt.fbx",
         // "./model/standing.FBX",
         (object) => {
           console.log(object);
