@@ -8,7 +8,8 @@
         <router-link to="/test2">test2</router-link> |
         <router-link to="/resize">resize</router-link> |
         <router-link to="/detail">detail</router-link> |
-        <router-link to="/fbx">fbx</router-link>
+        <router-link to="/fbx">fbx</router-link> |
+        <router-link to="/fbxCard">fbxCard</router-link>
       </nav>
       <router-view />
     </v-main>

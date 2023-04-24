@@ -41,6 +41,11 @@ const routes = [
     nameL: "fbx",
     component: () => import("../views/FbxLoader.vue"),
   },
+  {
+    path: "/fbxCard",
+    nameL: "fbxCard",
+    component: () => import("../views/FbxCard.vue"),
+  },
 ];
 
 const router = createRouter({
