@@ -1,13 +1,20 @@
 <template>
   <title>fbx loader</title>
+  <v-img
+    :src="require('../assets/logo.svg')"
+    class="my-3"
+    contain
+    height="200"
+  /><v-img src="../assets/model/logo.png" class="my-3" contain height="200" />
   <div ref="containerTest"></div>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
 import * as THREE from "three";
-// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
+import carFbx from "../assets/model/car.fbx";
 
 export default {
   setup() {
@@ -16,9 +23,9 @@ export default {
     let HEIGHT = window.innerHeight;
 
     let scene, camera, renderer;
-    // let controls;
+    let controls;
 
-    let mixers = [];
+    // let mixers = [];
 
     const init = () => {
       scene = new THREE.Scene();
@@ -27,7 +34,7 @@ export default {
       camera.position.z = 3;
       camera.position.x = 5;
       camera.position.y = 20;
-      // camera.position.set(50, 50, 100);
+      camera.position.set(50, 50, 100);
       camera.lookAt(0, 0, 0);
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -37,7 +44,7 @@ export default {
       containerTest.value.appendChild(renderer.domElement);
 
       //카메라 컨트롤
-      // controls = new OrbitControls(camera, renderer.domElement);
+      controls = new OrbitControls(camera, renderer.domElement);
 
       const axes = new THREE.AxesHelper(150);
       scene.add(axes);
@@ -58,6 +65,7 @@ export default {
       const boxGeometry = new THREE.BoxGeometry();
       const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
       const cube = new THREE.Mesh(boxGeometry, boxMaterial);
+      cube.position.set(0, 10, 0);
       scene.add(cube);
 
       {
@@ -92,32 +100,32 @@ export default {
         const color = "#eeeeee";
         scene.fog = new THREE.Fog(color, near, far);
       }
-
+      // const fbxpath = require("../assets/model/car.fbx");
       const fbxLoader = new FBXLoader();
 
       fbxLoader.load(
-        "./model/car.FBX",
+        carFbx,
         // "./model/Taunt.fbx",
         // "./model/standing.FBX",
         (object) => {
-          console.log(object);
+          // console.log(object);
 
-          object.traverse(function (child) {
-            if (child.isMesh) {
-              child.castShadow = true;
-              // child.receiveShadow = true;
-            }
-          });
+          // object.traverse(function (child) {
+          //   if (child.isMesh) {
+          //     child.castShadow = true;
+          //     // child.receiveShadow = true;
+          //   }
+          // });
 
           //애니메이션
-          object.mixer = new THREE.AnimationMixer(object);
+          // object.mixer = new THREE.AnimationMixer(object);
           // console.log(object.mixer);
 
-          mixers.push(object.mixer);
+          // mixers.push(object.mixer);
           // console.log(mixers.length);
 
-          object.scale.set(0.3, 0.3, 0.3);
-          object.position.y = 0;
+          // object.scale.set(0.2, 0.2, 0.2);
+          // object.position.y = 0;
           // object.position.x = -25;
           // object.position.z = 55;
           scene.add(object);
@@ -132,6 +140,7 @@ export default {
     };
 
     const animate = () => {
+      controls.update();
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     };
