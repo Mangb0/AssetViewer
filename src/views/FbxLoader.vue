@@ -1,11 +1,5 @@
 <template>
   <title>fbx loader</title>
-  <v-img
-    :src="require('../assets/logo.svg')"
-    class="my-3"
-    contain
-    height="200"
-  /><v-img src="../assets/model/logo.png" class="my-3" contain height="200" />
   <div ref="containerTest"></div>
 </template>
 
