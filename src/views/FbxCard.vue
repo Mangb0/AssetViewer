@@ -64,6 +64,8 @@
 import { onMounted } from "vue";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
+import tauntFbx from "../assets/model/Taunt.fbx";
 
 export default {
   setup() {
@@ -77,15 +79,16 @@ export default {
     };
 
     onMounted(() => {
-      initThreeJs("defaultCanvas0", "cube");
-      initThreeJs("defaultCanvas1", "cone");
-      initThreeJs("defaultCanvas2", "cube");
-      initThreeJs("defaultCanvas3", "cone");
+      initThreeJs("defaultCanvas0", tauntFbx);
+      initThreeJs("defaultCanvas1", tauntFbx);
+      initThreeJs("defaultCanvas2", tauntFbx);
+      initThreeJs("defaultCanvas3", tauntFbx);
     });
 
-    const initThreeJs = (canvasContainer, shape) => {
+    const initThreeJs = (canvasContainer, modelName) => {
       // Create the scene, camera, and renderer
       const scene = new THREE.Scene();
+      scene.background = new THREE.Color("#eee"); //배경 컬러
       const camera = new THREE.PerspectiveCamera(
         75,
         // canvasContainer.clientWidth / canvasContainer.clientHeight,
@@ -93,7 +96,7 @@ export default {
         0.1,
         1000
       );
-      camera.position.z = 3;
+      camera.position.set(50, 50, 100);
 
       const canvas = document.getElementById(canvasContainer);
       const renderer = new THREE.WebGLRenderer({
@@ -107,22 +110,38 @@ export default {
       );
       // canvasContainer.appendChild(renderer.domElement);
 
-      // Add a cube or cone to the scene
-      let geometry, material;
-      if (shape === "cube") {
-        geometry = new THREE.BoxGeometry();
-        material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-      } else if (shape === "cone") {
-        geometry = new THREE.ConeGeometry(1, 2, 32);
-        material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-      }
-      const mesh = new THREE.Mesh(geometry, material);
-      scene.add(mesh);
       // Create OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.enableZoom = false;
       controls.enableDamping = true;
 
+      // add fbx model
+      const fbxLoader = new FBXLoader();
+      fbxLoader.load(
+        modelName,
+        (object) => {
+          console.log(object);
+
+          object.traverse(function (child) {
+            if (child.isMesh) {
+              child.castShadow = true;
+              // child.receiveShadow = true;
+            }
+          });
+
+          //크기 조절
+          let scaleNum = 0.3;
+          object.scale.set(scaleNum, scaleNum, scaleNum);
+
+          scene.add(object);
+        },
+        (xhr) => {
+          console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
       // Animation loop
       const animate = () => {
         requestAnimationFrame(animate);
@@ -130,20 +149,8 @@ export default {
         renderer.render(scene, camera);
       };
 
-      const setSize = () => {
-        const rect = document
-          .getElementById("defaultCanvas0")
-          .getBoundingClientRect();
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-        console.log("rect", rect.width, rect.height);
-        console.log("resize", canvas.clientWidth, canvas.clientHeight);
-      };
-
-      // 이벤트
-      window.addEventListener("resize", setSize);
       animate();
     };
-
     return {
       // canvasContainer1,
       // canvasContainer2,
