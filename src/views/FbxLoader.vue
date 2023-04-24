@@ -14,7 +14,8 @@ import { ref, onMounted } from "vue";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
-import carFbx from "../assets/model/car.fbx";
+// import carFbx from "../assets/model/car.fbx";
+import tauntFbx from "../assets/model/Taunt.fbx";
 
 export default {
   setup() {
@@ -25,17 +26,15 @@ export default {
     let scene, camera, renderer;
     let controls;
 
-    // let mixers = [];
+    let mixers = [];
+    let action;
 
     const init = () => {
       scene = new THREE.Scene();
       scene.background = new THREE.Color("#eee"); //배경 컬러
       camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 0.1, 2000);
-      camera.position.z = 3;
-      camera.position.x = 5;
-      camera.position.y = 20;
       camera.position.set(50, 50, 100);
-      camera.lookAt(0, 0, 0);
+      // camera.lookAt(0, 0, 0);
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(WIDTH, HEIGHT);
@@ -45,6 +44,7 @@ export default {
 
       //카메라 컨트롤
       controls = new OrbitControls(camera, renderer.domElement);
+      // controls.autoRotate = true;
 
       const axes = new THREE.AxesHelper(150);
       scene.add(axes);
@@ -62,11 +62,11 @@ export default {
       mesh.receiveShadow = true;
       scene.add(mesh);
 
-      const boxGeometry = new THREE.BoxGeometry();
-      const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-      const cube = new THREE.Mesh(boxGeometry, boxMaterial);
-      cube.position.set(0, 10, 0);
-      scene.add(cube);
+      // const boxGeometry = new THREE.BoxGeometry();
+      // const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      // const cube = new THREE.Mesh(boxGeometry, boxMaterial);
+      // cube.position.set(0, 10, 0);
+      // scene.add(cube);
 
       {
         //조명 넣기
@@ -104,28 +104,31 @@ export default {
       const fbxLoader = new FBXLoader();
 
       fbxLoader.load(
-        carFbx,
-        // "./model/Taunt.fbx",
-        // "./model/standing.FBX",
+        // carFbx,
+        tauntFbx,
         (object) => {
-          // console.log(object);
+          console.log(object);
 
-          // object.traverse(function (child) {
-          //   if (child.isMesh) {
-          //     child.castShadow = true;
-          //     // child.receiveShadow = true;
-          //   }
-          // });
+          object.traverse(function (child) {
+            if (child.isMesh) {
+              child.castShadow = true;
+              // child.receiveShadow = true;
+            }
+          });
 
           //애니메이션
-          // object.mixer = new THREE.AnimationMixer(object);
+          object.mixer = new THREE.AnimationMixer(object);
           // console.log(object.mixer);
 
-          // mixers.push(object.mixer);
+          mixers.push(object.mixer);
           // console.log(mixers.length);
 
-          // object.scale.set(0.2, 0.2, 0.2);
-          // object.position.y = 0;
+          if (mixers.length > 0) {
+            action = object.mixer.clipAction(object.animations[0]);
+          }
+
+          object.scale.set(0.3, 0.3, 0.3);
+          object.position.y = 0;
           // object.position.x = -25;
           // object.position.z = 55;
           scene.add(object);
@@ -137,9 +140,30 @@ export default {
           console.log(error);
         }
       );
+
+      document.addEventListener("keydown", onDocumentKeyDown);
     };
 
+    let keyCode = 0;
+    const onDocumentKeyDown = (event) => {
+      keyCode = event.key || event.keyCode;
+      //console.log(event.key, event.keyCode);
+
+      if (keyCode == "Control" || keyCode == 17) {
+        action.play();
+        // action.setLoop(0, 1);
+      } else {
+        action.stop();
+      }
+    };
+
+    const clock = new THREE.Clock();
     const animate = () => {
+      const delta = clock.getDelta();
+
+      for (let i = 0; i < mixers.length; i++) {
+        mixers[i].update(delta);
+      }
       controls.update();
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
