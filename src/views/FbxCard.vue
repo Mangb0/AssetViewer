@@ -4,7 +4,7 @@
       <div class="card">
         <canvas :id="canvas.id" class="card__image"> </canvas>
         <div class="card__content">
-          <div class="card__title">{{ canvas.model.toString() }}</div>
+          <div class="card__title">{{ canvas.name }}</div>
           <p class="card__text">
             This is the shorthand for flex-grow, flex-shrink and flex-basis
             combined. The second and third parameters (flex-shrink and
@@ -92,7 +92,7 @@ export default {
         0.1,
         1000
       );
-      camera.position.set(0, 80, 52);
+      camera.position.set(25, 25, 50);
 
       const canvas = document.getElementById(canvasContainer);
       const renderer = new THREE.WebGLRenderer({
@@ -134,8 +134,10 @@ export default {
 
       // Create OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
-      controls.enableZoom = false;
+      // controls.enableZoom = false;
       controls.enableDamping = true;
+      // controls.autoRotate = true;
+      controls.enablePan = false;
 
       // add fbx model
       const fbxLoader = new FBXLoader();
@@ -154,7 +156,7 @@ export default {
           //크기 조절
           let scaleNum = 0.3;
           object.scale.set(scaleNum, scaleNum, scaleNum);
-          object.position.y = 0;
+          object.position.y = -30;
           scene.add(object);
         },
         (xhr) => {
@@ -176,6 +178,16 @@ export default {
         if (e.ctrlKey) {
           console.log(camera.position);
         }
+      });
+
+      // mouseover event
+      canvas.addEventListener("mouseover", () => {
+        controls.autoRotate = true;
+      });
+
+      // mouseout event
+      canvas.addEventListener("mouseout", () => {
+        controls.autoRotate = false;
       });
 
       animate();
