@@ -66,23 +66,29 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import tauntFbx from "../assets/model/Taunt.fbx";
+import sneakerFbx from "../assets/model/SNEAKER.FBX";
+import standingFbx from "../assets/model/standing.fbx";
+import doughnutFbx from "../assets/model/DoughNut_FBX.fbx";
 
 export default {
   setup() {
     const state = {
       items: [
-        { index: 1, id: "defaultCanvas0" },
-        { index: 2, id: "defaultCanvas1" },
-        { index: 3, id: "defaultCanvas2" },
-        { index: 4, id: "defaultCanvas3" },
+        { index: 1, id: "defaultCanvas0", model: tauntFbx },
+        { index: 2, id: "defaultCanvas1", model: sneakerFbx },
+        { index: 3, id: "defaultCanvas2", model: standingFbx },
+        { index: 4, id: "defaultCanvas3", model: doughnutFbx },
       ],
     };
 
     onMounted(() => {
-      initThreeJs("defaultCanvas0", tauntFbx);
-      initThreeJs("defaultCanvas1", tauntFbx);
-      initThreeJs("defaultCanvas2", tauntFbx);
-      initThreeJs("defaultCanvas3", tauntFbx);
+      state.items.forEach((canvas) => {
+        initThreeJs(canvas.id, canvas.model);
+      });
+      // initThreeJs("defaultCanvas0", tauntFbx);
+      // initThreeJs("defaultCanvas1", tauntFbx);
+      // initThreeJs("defaultCanvas2", tauntFbx);
+      // initThreeJs("defaultCanvas3", tauntFbx);
     });
 
     const initThreeJs = (canvasContainer, modelName) => {
