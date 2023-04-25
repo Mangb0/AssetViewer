@@ -10,7 +10,9 @@
             combined. The second and third parameters (flex-shrink and
             flex-basis) are optional. Default is 0 1 auto.
           </p>
-          <button class="btn btn--block card__btn">Button</button>
+          <button class="btn btn--block card__btn" @click="toggleWireframe">
+            Button
+          </button>
         </div>
       </div>
     </li>
@@ -97,6 +99,7 @@ export default {
       const canvas = document.getElementById(canvasContainer);
       const renderer = new THREE.WebGLRenderer({
         canvas: canvas,
+        antialias: true,
       });
       renderer.setSize(
         canvas.clientWidth,
@@ -134,7 +137,7 @@ export default {
 
       // Create OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
-      // controls.enableZoom = false;
+      controls.enableZoom = false;
       controls.enableDamping = true;
       // controls.autoRotate = true;
       controls.enablePan = false;
@@ -192,10 +195,20 @@ export default {
 
       animate();
     };
+
+    const toggleWireframe = () => {
+      this.scene.traverse((child) => {
+        if (child.isMesh) {
+          child.material.wireframe = !child.material.wireframe;
+        }
+      });
+    };
+
     return {
       // canvasContainer1,
       // canvasContainer2,
       state,
+      toggleWireframe,
     };
   },
 };
