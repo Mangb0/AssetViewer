@@ -116,6 +116,32 @@ export default {
       );
       // canvasContainer.appendChild(renderer.domElement);
 
+      // add Light
+      {
+        //조명 넣기
+        var light = new THREE.HemisphereLight(0xffffff, 0x080820, 1);
+        light.position.set(100, 100, 100);
+        scene.add(light);
+      }
+      {
+        //조명
+        const color = 0xffffff;
+        const intensity = 0.6;
+        const light = new THREE.PointLight(color, intensity);
+        light.castShadow = true;
+
+        light.position.set(40, 120, 40);
+
+        light.shadow.mapSize.width = 2048;
+        light.shadow.mapSize.height = 2048;
+        light.shadow.radius = 5;
+
+        const sphereSize = 10;
+        const pointLightHelper = new THREE.PointLightHelper(light, sphereSize);
+        scene.add(pointLightHelper);
+        scene.add(light);
+      }
+
       // Create OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.enableZoom = false;
