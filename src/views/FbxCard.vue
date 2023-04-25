@@ -4,7 +4,7 @@
       <div class="card">
         <canvas :id="canvas.id" class="card__image"> </canvas>
         <div class="card__content">
-          <div class="card__title">{{ canvas.id }}</div>
+          <div class="card__title">{{ canvas.model.toString() }}</div>
           <p class="card__text">
             This is the shorthand for flex-grow, flex-shrink and flex-basis
             combined. The second and third parameters (flex-shrink and
@@ -74,10 +74,15 @@ export default {
   setup() {
     const state = {
       items: [
-        { index: 1, id: "defaultCanvas0", model: tauntFbx },
-        { index: 2, id: "defaultCanvas1", model: sneakerFbx },
-        { index: 3, id: "defaultCanvas2", model: standingFbx },
-        { index: 4, id: "defaultCanvas3", model: doughnutFbx },
+        { index: 1, id: "defaultCanvas0", name: "taunt", model: tauntFbx },
+        { index: 2, id: "defaultCanvas1", name: "sneaker", model: sneakerFbx },
+        {
+          index: 3,
+          id: "defaultCanvas2",
+          name: "standing",
+          model: standingFbx,
+        },
+        { index: 4, id: "defaultCanvas3", name: "dughnut", model: doughnutFbx },
       ],
     };
 
