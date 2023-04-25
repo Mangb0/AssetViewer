@@ -102,7 +102,7 @@ export default {
         0.1,
         1000
       );
-      camera.position.set(50, 50, 100);
+      camera.position.set(0, 80, 52);
 
       const canvas = document.getElementById(canvasContainer);
       const renderer = new THREE.WebGLRenderer({
@@ -164,7 +164,7 @@ export default {
           //크기 조절
           let scaleNum = 0.3;
           object.scale.set(scaleNum, scaleNum, scaleNum);
-
+          object.position.y = 0;
           scene.add(object);
         },
         (xhr) => {
@@ -180,6 +180,13 @@ export default {
         controls.update();
         renderer.render(scene, camera);
       };
+
+      // push ctrl key call cameraPos function
+      document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey) {
+          console.log(camera.position);
+        }
+      });
 
       animate();
     };
