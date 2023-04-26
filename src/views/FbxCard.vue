@@ -10,7 +10,11 @@
             combined. The second and third parameters (flex-shrink and
             flex-basis) are optional. Default is 0 1 auto.
           </p>
-          <button class="btn btn--block card__btn" @click="toggleWireframe">
+          <button
+            :id="canvas.index"
+            class="btn btn--block card__btn"
+            @click="toggleWireframe(canvas.id)"
+          >
             Button
           </button>
         </div>
@@ -61,15 +65,15 @@ export default {
   setup() {
     const state = {
       items: [
-        { index: 1, id: "defaultCanvas0", name: "taunt", model: tauntFbx },
-        { index: 2, id: "defaultCanvas1", name: "sneaker", model: sneakerFbx },
+        { index: 0, id: "defaultCanvas0", name: "taunt", model: tauntFbx },
+        { index: 1, id: "defaultCanvas1", name: "sneaker", model: sneakerFbx },
         {
-          index: 3,
+          index: 2,
           id: "defaultCanvas2",
           name: "standing",
           model: standingFbx,
         },
-        { index: 4, id: "defaultCanvas3", name: "dughnut", model: doughnutFbx },
+        { index: 3, id: "defaultCanvas3", name: "dughnut", model: doughnutFbx },
       ],
     };
 
@@ -137,7 +141,7 @@ export default {
 
       // Create OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
-      controls.enableZoom = false;
+      // controls.enableZoom = false;
       controls.enableDamping = true;
       // controls.autoRotate = true;
       controls.enablePan = false;
@@ -153,7 +157,28 @@ export default {
             if (child.isMesh) {
               child.castShadow = true;
               // child.receiveShadow = true;
+
+              //   var wireframeGeomtry = new THREE.WireframeGeometry(
+              //     child.geometry
+              //   );
+              //   var wireframeMaterial = new THREE.LineBasicMaterial({
+              //     color: 0x000000,
+              //   });
+              //   var wireframe = new THREE.LineSegments(
+              //     wireframeGeomtry,
+              //     wireframeMaterial
+              //   );
+              //   child.add(wireframe);
+
+              child.material.wireframe = true;
             }
+            // if (child.material) {
+            //   child.material = new THREE.MeshPhongMaterial({
+            //     color: 0xffffff,
+            //     wireframe: true,
+            //   });
+            //   console.log(child.material);
+            // }
           });
 
           //크기 조절
@@ -162,9 +187,9 @@ export default {
           object.position.y = -30;
           scene.add(object);
         },
-        (xhr) => {
-          console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-        },
+        // (xhr) => {
+        // console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+        // },
         (error) => {
           console.log(error);
         }
@@ -188,6 +213,15 @@ export default {
         controls.autoRotate = true;
       });
 
+      //canvas click toggle wireframe
+      // canvas.addEventListener("click", () => {
+      //   scene.traverse((child) => {
+      //     if (child.isMesh) {
+      //       child.material.wireframe = !child.material.wireframe;
+      //     }
+      //   });
+      // });
+
       // mouseout event
       canvas.addEventListener("mouseout", () => {
         controls.autoRotate = false;
@@ -196,19 +230,19 @@ export default {
       animate();
     };
 
-    const toggleWireframe = () => {
-      this.scene.traverse((child) => {
-        if (child.isMesh) {
-          child.material.wireframe = !child.material.wireframe;
-        }
-      });
-    };
+    // const toggleWireframe = () => {
+    //   this.scene.traverse((child) => {
+    //     if (child.isMesh) {
+    //       child.material.wireframe = !child.material.wireframe;
+    //     }
+    //   });
+    // };
 
     return {
       // canvasContainer1,
       // canvasContainer2,
       state,
-      toggleWireframe,
+      // toggleWireframe,
     };
   },
 };
