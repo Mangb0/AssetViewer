@@ -10,11 +10,7 @@
             combined. The second and third parameters (flex-shrink and
             flex-basis) are optional. Default is 0 1 auto.
           </p>
-          <button
-            :id="canvas.index"
-            class="btn btn--block card__btn"
-            @click="toggleWireframe(canvas.id)"
-          >
+          <button :id="canvas.index" class="btn btn--block card__btn">
             Button
           </button>
         </div>
@@ -79,7 +75,7 @@ export default {
 
     onMounted(() => {
       state.items.forEach((canvas) => {
-        initThreeJs(canvas.id, canvas.model);
+        initThreeJs(canvas.id, canvas.model, canvas.index);
       });
       // initThreeJs("defaultCanvas0", tauntFbx);
       // initThreeJs("defaultCanvas1", tauntFbx);
@@ -87,7 +83,7 @@ export default {
       // initThreeJs("defaultCanvas3", tauntFbx);
     });
 
-    const initThreeJs = (canvasContainer, modelName) => {
+    const initThreeJs = (canvasContainer, modelName, buttonId) => {
       // Create the scene, camera, and renderer
       const scene = new THREE.Scene();
       scene.background = new THREE.Color("#eee"); //배경 컬러
@@ -212,8 +208,15 @@ export default {
       canvas.addEventListener("mouseover", () => {
         controls.autoRotate = true;
       });
-
-      //canvas click toggle wireframe
+      //button click toggle wireframe
+      const button = document.getElementById(buttonId);
+      button.addEventListener("click", () => {
+        scene.traverse((child) => {
+          if (child.isMesh) {
+            child.material.wireframe = !child.material.wireframe;
+          }
+        });
+      });
       // canvas.addEventListener("click", () => {
       //   scene.traverse((child) => {
       //     if (child.isMesh) {
