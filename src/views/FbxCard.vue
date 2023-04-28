@@ -142,6 +142,7 @@ export default {
       // controls.autoRotate = true;
       controls.enablePan = false;
 
+      let fbx;
       // add fbx model
       const fbxLoader = new FBXLoader();
       fbxLoader.load(
@@ -153,35 +154,15 @@ export default {
             if (child.isMesh) {
               child.castShadow = true;
               // child.receiveShadow = true;
-
-              //   var wireframeGeomtry = new THREE.WireframeGeometry(
-              //     child.geometry
-              //   );
-              //   var wireframeMaterial = new THREE.LineBasicMaterial({
-              //     color: 0x000000,
-              //   });
-              //   var wireframe = new THREE.LineSegments(
-              //     wireframeGeomtry,
-              //     wireframeMaterial
-              //   );
-              //   child.add(wireframe);
-
-              child.material.wireframe = true;
             }
-            // if (child.material) {
-            //   child.material = new THREE.MeshPhongMaterial({
-            //     color: 0xffffff,
-            //     wireframe: true,
-            //   });
-            //   console.log(child.material);
-            // }
           });
 
           //크기 조절
           let scaleNum = 0.3;
           object.scale.set(scaleNum, scaleNum, scaleNum);
           object.position.y = -30;
-          scene.add(object);
+          fbx = object;
+          scene.add(fbx);
         },
         // (xhr) => {
         // console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
@@ -209,12 +190,23 @@ export default {
         controls.autoRotate = true;
       });
       //button click toggle wireframe
+      let wireframeToggle = false;
       const button = document.getElementById(buttonId);
       button.addEventListener("click", () => {
-        scene.traverse((child) => {
+        console.log(buttonId);
+
+        wireframeToggle = !wireframeToggle;
+        fbx.traverse((child) => {
+          // console.log(obj);
           if (child.isMesh) {
-            child.material.wireframe = !child.material.wireframe;
+            child.material.wireframe = wireframeToggle;
           }
+          // obj.traverse((child) => {
+          //   console.log(child);
+          //   if (child.material) {
+          //     child.material.wireframe = !child.material.wireframe;
+          //   }
+          // });
         });
       });
       // canvas.addEventListener("click", () => {
