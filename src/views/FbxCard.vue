@@ -3,6 +3,15 @@
     <li class="cards__item" v-for="canvas in state.items" :key="canvas.index">
       <div class="card">
         <canvas :id="canvas.id" class="card__image"> </canvas>
+        <v-btn
+          :id="canvas.index"
+          class="btnToggle"
+          flat
+          icon
+          color="transparent"
+        >
+          <v-icon>mdi-camera</v-icon>
+        </v-btn>
         <div class="card__content">
           <div class="card__title">{{ canvas.name }}</div>
           <p class="card__text">
@@ -10,9 +19,7 @@
             combined. The second and third parameters (flex-shrink and
             flex-basis) are optional. Default is 0 1 auto.
           </p>
-          <button :id="canvas.index" class="btn btn--block card__btn">
-            Button
-          </button>
+          <button class="btn btn--block card__btn">Button</button>
         </div>
       </div>
     </li>
@@ -361,5 +368,9 @@ img {
   font-size: 0.875rem;
   line-height: 1.5;
   margin-bottom: 1.25rem;
+}
+.btnToggle {
+  position: absolute;
+  margin: 1rem;
 }
 </style>
