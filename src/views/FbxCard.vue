@@ -148,7 +148,7 @@ export default {
       fbxLoader.load(
         modelName,
         (object) => {
-          console.log(object);
+          // console.log(object);
 
           object.traverse(function (child) {
             if (child.isMesh) {
@@ -171,17 +171,29 @@ export default {
           console.log(error);
         }
       );
+
       // Animation loop
       const animate = () => {
-        requestAnimationFrame(animate);
+        // const canvas = renderer.domElement;
+        // camera.aspect = 2;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
         controls.update();
         renderer.render(scene, camera);
+        requestAnimationFrame(animate);
       };
 
       // push ctrl key call cameraPos function
       document.addEventListener("keydown", (e) => {
         if (e.ctrlKey) {
-          console.log(camera.position);
+          // console.log(camera.position);
+          const canvas = renderer.domElement;
+          console.log(window.innerWidth, window.innerHeight);
+          console.log("canvas : " + canvas.width, canvas.height);
+          console.log(
+            "canvasclient : " + canvas.clientWidth,
+            canvas.clientHeight
+          );
         }
       });
 
@@ -217,14 +229,20 @@ export default {
       //   });
       // });
 
+      window.addEventListener("resize", () => {
+        const width = 1920;
+        const height = 937;
+        const widthPercent = width / window.innerWidth;
+        const heightPercent = height / window.innerHeight;
+        canvas.style.width = canvas.width / widthPercent + "px";
+        canvas.style.height = canvas.height / heightPercent + "px";
+      });
       // mouseout event
       canvas.addEventListener("mouseout", () => {
         controls.autoRotate = false;
       });
-
       animate();
     };
-
     // const toggleWireframe = () => {
     //   this.scene.traverse((child) => {
     //     if (child.isMesh) {
