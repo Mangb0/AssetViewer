@@ -63,6 +63,7 @@ import tauntFbx from "../assets/model/Taunt.fbx";
 import sneakerFbx from "../assets/model/SNEAKER.FBX";
 import standingFbx from "../assets/model/standing.fbx";
 import doughnutFbx from "../assets/model/DoughNut_FBX.fbx";
+import { modelPack } from "../assets/model/modelPack.js";
 
 export default {
   setup() {
@@ -249,6 +250,7 @@ export default {
         controls.autoRotate = false;
       });
       animate();
+      modelPack();
     };
     // const toggleWireframe = () => {
     //   this.scene.traverse((child) => {
