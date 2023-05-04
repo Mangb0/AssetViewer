@@ -37,19 +37,6 @@
           <button class="btn btn--block card__btn">Button</button>
         </div>
       </div>
-    </li>
-    <li class="cards__item">
-      <div class="card">
-        <canvas id="defaultCanvas2" class="card__image"> </canvas>
-        <div class="card__content">
-          <div class="card__title">Flex Shrink</div>
-          <p class="card__text">
-            This defines the ability for a flex item to shrink if necessary.
-            Negative numbers are invalid.
-          </p>
-          <button class="btn btn--block card__btn">Button</button>
-        </div>
-      </div>
     </li> -->
   </ul>
 </template>
@@ -82,50 +69,37 @@ export default {
     };
 
     onMounted(() => {
+      // state.items 만큼 initThreeJs (threejs canvas id, canvas에 띄울 모델, toggleWireframe button id) 실행
       state.items.forEach((canvas) => {
         initThreeJs(canvas.id, canvas.model, canvas.index);
       });
-      // initThreeJs("defaultCanvas0", tauntFbx);
-      // initThreeJs("defaultCanvas1", tauntFbx);
-      // initThreeJs("defaultCanvas2", tauntFbx);
-      // initThreeJs("defaultCanvas3", tauntFbx);
     });
 
     const initThreeJs = (canvasContainer, modelName, buttonId) => {
-      // Create the scene, camera, and renderer
       const scene = new THREE.Scene();
       scene.background = new THREE.Color("#eee"); //배경 컬러
+      const canvas = document.getElementById(canvasContainer);
       const camera = new THREE.PerspectiveCamera(
         75,
-        // canvasContainer.clientWidth / canvasContainer.clientHeight,
-        2,
+        canvas.clientWidth / canvas.clientHeight,
         0.1,
         1000
       );
       camera.position.set(25, 25, 50);
 
-      const canvas = document.getElementById(canvasContainer);
       const renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         antialias: true,
       });
-      renderer.setSize(
-        canvas.clientWidth,
-        canvas.clientHeight
-        // 200,
-        // 200
-      );
-      // canvasContainer.appendChild(renderer.domElement);
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
       // add Light
       {
-        //조명 넣기
         var light = new THREE.HemisphereLight(0xffffff, 0x080820, 1);
         light.position.set(100, 100, 100);
         scene.add(light);
       }
       {
-        //조명
         const color = 0xffffff;
         const intensity = 0.6;
         const light = new THREE.PointLight(color, intensity);
@@ -143,7 +117,6 @@ export default {
         scene.add(light);
       }
 
-      // Create OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
       // controls.enableZoom = false;
       controls.enableDamping = true;
@@ -182,8 +155,6 @@ export default {
 
       // Animation loop
       const animate = () => {
-        // const canvas = renderer.domElement;
-        // camera.aspect = 2;
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
         controls.update();
@@ -191,10 +162,12 @@ export default {
         requestAnimationFrame(animate);
       };
 
-      // push ctrl key call cameraPos function
       document.addEventListener("keydown", (e) => {
         if (e.ctrlKey) {
+          // push ctrl key call cameraPos function
           // console.log(camera.position);
+
+          // push ctrl key call canvasSize function
           const canvas = renderer.domElement;
           console.log(window.innerWidth, window.innerHeight);
           console.log("canvas : " + canvas.width, canvas.height);
@@ -229,14 +202,8 @@ export default {
           // });
         });
       });
-      // canvas.addEventListener("click", () => {
-      //   scene.traverse((child) => {
-      //     if (child.isMesh) {
-      //       child.material.wireframe = !child.material.wireframe;
-      //     }
-      //   });
-      // });
 
+      // resize event
       window.addEventListener("resize", () => {
         const width = 1920;
         const height = 937;
@@ -252,19 +219,8 @@ export default {
       animate();
       modelPack();
     };
-    // const toggleWireframe = () => {
-    //   this.scene.traverse((child) => {
-    //     if (child.isMesh) {
-    //       child.material.wireframe = !child.material.wireframe;
-    //     }
-    //   });
-    // };
-
     return {
-      // canvasContainer1,
-      // canvasContainer2,
       state,
-      // toggleWireframe,
     };
   },
 };
