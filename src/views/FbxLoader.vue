@@ -9,7 +9,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 // import carFbx from "../assets/model/car.fbx";
-import tauntFbx from "../assets/model/Taunt.fbx";
+import { tauntFbx } from "../assets/model/modelPack.js";
 
 export default {
   setup() {
