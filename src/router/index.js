@@ -18,32 +18,33 @@ const routes = [
   },
   {
     path: "/test",
-    nameL: "test",
+    name: "test",
     component: () => import("../views/TestView.vue"),
   },
   {
     path: "/test2",
-    nameL: "test2",
+    name: "test2",
     component: () => import("../views/TestView2.vue"),
   },
   {
     path: "/resize",
-    nameL: "resize",
+    name: "resize",
     component: () => import("../views/TestResize.vue"),
   },
   {
     path: "/detail",
-    nameL: "detail",
+    name: "detail",
     component: () => import("../views/DetailView.vue"),
   },
   {
-    path: "/fbx",
-    nameL: "fbx",
+    path: "/fbx/:no",
+    name: "fbx",
     component: () => import("../views/FbxLoader.vue"),
+    props: true,
   },
   {
     path: "/fbxCard",
-    nameL: "fbxCard",
+    name: "fbxCard",
     component: () => import("../views/FbxCard.vue"),
   },
 ];

@@ -1,5 +1,8 @@
 <template>
   <title>fbx loader</title>
+  <div>
+    <p>{{ no }}</p>
+  </div>
   <div ref="containerTest"></div>
 </template>
 
@@ -9,10 +12,12 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 // import carFbx from "../assets/model/car.fbx";
-import { tauntFbx } from "../assets/model/modelPack.js";
+// import { tauntFbx } from "../assets/model/modelPack.js";
 
 export default {
-  setup() {
+  props: ["no"],
+  setup(props) {
+    console.log(props.no);
     const containerTest = ref(null);
     let WIDTH = window.innerWidth;
     let HEIGHT = window.innerHeight;
@@ -23,7 +28,25 @@ export default {
     let mixers = [];
     let action;
 
-    const init = () => {
+    const importFbx = async () => {
+      let fbx;
+      if (props.no === "1") {
+        const { tauntFbx } = await import("../assets/model/modelPack.js");
+        fbx = tauntFbx;
+      } else if (props.no === "2") {
+        const { standingFbx } = await import("../assets/model/modelPack.js");
+        fbx = standingFbx;
+      }
+      // const { tauntFbx } = await import("../assets/model/modelPack.js");
+      // let fbx = tauntFbx;
+      return fbx;
+    };
+
+    const init = async () => {
+      // const { tauntFbx } = await import("../assets/model/modelPack.js");
+      // const fbx = tauntFbx;
+
+      const fbx = await importFbx();
       scene = new THREE.Scene();
       scene.background = new THREE.Color("#eee"); //배경 컬러
       camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 0.1, 2000);
@@ -99,7 +122,7 @@ export default {
 
       fbxLoader.load(
         // carFbx,
-        tauntFbx,
+        fbx,
         (object) => {
           console.log(object);
 
@@ -116,7 +139,6 @@ export default {
 
           mixers.push(object.mixer);
           // console.log(mixers.length);
-
           if (mixers.length > 0) {
             action = object.mixer.clipAction(object.animations[0]);
           }
@@ -135,6 +157,7 @@ export default {
         }
       );
 
+      animate();
       document.addEventListener("keydown", onDocumentKeyDown);
     };
 
@@ -165,7 +188,6 @@ export default {
 
     onMounted(() => {
       init();
-      animate();
     });
     return { containerTest };
   },
@@ -173,9 +195,9 @@ export default {
 </script>
 
 <style scoped>
-body {
+/* body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-}
+} */
 </style>
