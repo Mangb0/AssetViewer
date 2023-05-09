@@ -43,8 +43,8 @@ const routes = [
     props: true,
   },
   {
-    path: "/fbxCard",
-    name: "fbxCard",
+    path: "/Card",
+    name: "Card",
     component: () => import("../views/FbxCard.vue"),
   },
 ];

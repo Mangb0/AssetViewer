@@ -23,7 +23,7 @@
         </div>
       </div>
     </li>
-    <router-link :to="{ name: 'fbx', props: { no: 1 } }">test</router-link>
+    <router-link :to="{ name: 'fbx', params: { no: 1 } }">test</router-link>
     <!-- <li class="cards__item">
       <div class="card">
         <canvas id="defaultCanvas1" class="card__image"> </canvas>

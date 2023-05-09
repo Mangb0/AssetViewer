@@ -15,7 +15,12 @@ import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 // import { tauntFbx } from "../assets/model/modelPack.js";
 
 export default {
-  props: ["no"],
+  props: {
+    no: {
+      type: Number,
+      required: true,
+    },
+  },
   setup(props) {
     console.log(props.no);
     const containerTest = ref(null);
