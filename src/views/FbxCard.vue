@@ -19,26 +19,15 @@
             combined. The second and third parameters (flex-shrink and
             flex-basis) are optional. Default is 0 1 auto.
           </p>
-          <button class="btn btn--block card__btn">Button</button>
+          <button
+            class="btn btn--block card__btn"
+            @click="loadFbx(canvas.index)"
+          >
+            View Fbx Detail
+          </button>
         </div>
       </div>
     </li>
-    <router-link :to="{ name: 'fbx', params: { no: 1 } }">test</router-link>
-    <!-- <li class="cards__item">
-      <div class="card">
-        <canvas id="defaultCanvas1" class="card__image"> </canvas>
-        <div class="card__content">
-          <div class="card__title">Flex Grow</div>
-          <p class="card__text">
-            This defines the ability for a flex item to grow if necessary. It
-            accepts a unitless value that serves as a proportion. It dictates
-            what amount of the available space inside the flex container the
-            item should take up.
-          </p>
-          <button class="btn btn--block card__btn">Button</button>
-        </div>
-      </div>
-    </li> -->
   </ul>
 </template>
 
@@ -52,6 +41,7 @@ import sneakerFbx from "../assets/model/SNEAKER.FBX";
 import standingFbx from "../assets/model/standing.fbx";
 import doughnutFbx from "../assets/model/DoughNut_FBX.fbx";
 import { modelPack } from "../assets/model/modelPack.js";
+import router from "@/router";
 
 export default {
   setup() {
@@ -220,8 +210,14 @@ export default {
       animate();
       modelPack();
     };
+
+    const loadFbx = (no) => {
+      router.push({ name: "fbx", params: { no: no } });
+    };
+
     return {
       state,
+      loadFbx,
     };
   },
 };
