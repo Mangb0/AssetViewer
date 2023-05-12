@@ -35,12 +35,18 @@ export default {
 
     const importFbx = async () => {
       let fbx;
-      if (props.no === "1") {
+      if (props.no === "0") {
         const { tauntFbx } = await import("../assets/model/modelPack.js");
         fbx = tauntFbx;
+      } else if (props.no === "1") {
+        const { sneakerFbx } = await import("../assets/model/modelPack.js");
+        fbx = sneakerFbx;
       } else if (props.no === "2") {
         const { standingFbx } = await import("../assets/model/modelPack.js");
         fbx = standingFbx;
+      } else if (props.no === "3") {
+        const { doughnutFbx } = await import("../assets/model/modelPack.js");
+        fbx = doughnutFbx;
       }
       // const { tauntFbx } = await import("../assets/model/modelPack.js");
       // let fbx = tauntFbx;
@@ -139,13 +145,15 @@ export default {
           });
 
           //애니메이션
-          object.mixer = new THREE.AnimationMixer(object);
-          // console.log(object.mixer);
+          if (object.animations.length > 0) {
+            object.mixer = new THREE.AnimationMixer(object);
+            // console.log(object.mixer);
 
-          mixers.push(object.mixer);
-          // console.log(mixers.length);
-          if (mixers.length > 0) {
-            action = object.mixer.clipAction(object.animations[0]);
+            mixers.push(object.mixer);
+            // console.log(mixers.length);
+            if (mixers.length > 0) {
+              action = object.mixer.clipAction(object.animations[0]);
+            }
           }
 
           object.scale.set(0.3, 0.3, 0.3);
@@ -170,12 +178,13 @@ export default {
     const onDocumentKeyDown = (event) => {
       keyCode = event.key || event.keyCode;
       //console.log(event.key, event.keyCode);
-
-      if (keyCode == "Control" || keyCode == 17) {
-        action.play();
-        // action.setLoop(0, 1);
-      } else {
-        action.stop();
+      if (action) {
+        if (keyCode == "Control" || keyCode == 17) {
+          action.play();
+          // action.setLoop(0, 1);
+        } else {
+          action.stop();
+        }
       }
     };
 
