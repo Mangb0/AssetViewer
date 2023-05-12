@@ -1,15 +1,9 @@
 <template>
   <ul class="cards">
-    <li class="cards__item" v-for="canvas in state.items" :key="canvas.index">
+    <li class="cards__item" v-for="(canvas, index) in state.items" :key="index">
       <div class="card">
         <canvas :id="canvas.id" class="card__image"> </canvas>
-        <v-btn
-          :id="canvas.index"
-          class="btnToggle"
-          flat
-          icon
-          color="transparent"
-        >
+        <v-btn :id="index" class="btnToggle" flat icon color="transparent">
           <v-icon>mdi-camera</v-icon>
         </v-btn>
         <div class="card__content">
@@ -19,11 +13,9 @@
             combined. The second and third parameters (flex-shrink and
             flex-basis) are optional. Default is 0 1 auto.
           </p>
-          <button
-            class="btn btn--block card__btn"
-            @click="loadFbx(canvas.index)"
-          >
-            View Fbx Detail
+          <button class="btn btn--block card__btn" @click="loadFbx(index)">
+            <!-- View Fbx Detail -->
+            {{ index }}
           </button>
         </div>
       </div>
@@ -47,28 +39,27 @@ export default {
   setup() {
     const state = {
       items: [
-        { index: 0, id: "defaultCanvas0", name: "taunt", model: tauntFbx },
-        { index: 1, id: "defaultCanvas1", name: "sneaker", model: sneakerFbx },
+        { id: "defaultCanvas0", name: "taunt", model: tauntFbx },
+        { id: "defaultCanvas1", name: "sneaker", model: sneakerFbx },
         {
-          index: 2,
           id: "defaultCanvas2",
           name: "standing",
           model: standingFbx,
         },
-        { index: 3, id: "defaultCanvas3", name: "dughnut", model: doughnutFbx },
+        { id: "defaultCanvas3", name: "dughnut", model: doughnutFbx },
       ],
     };
 
     onMounted(() => {
-      // state.items 만큼 initThreeJs (threejs canvas id, canvas에 띄울 모델, toggleWireframe button id) 실행
-      state.items.forEach((canvas) => {
-        initThreeJs(canvas.id, canvas.model, canvas.index);
+      state.items.forEach((canvas, index) => {
+        initThreeJs(canvas.id, canvas.model, index);
       });
     });
 
+    // init threejs canvas function
     const initThreeJs = (canvasContainer, modelName, buttonId) => {
       const scene = new THREE.Scene();
-      scene.background = new THREE.Color("#eee"); //배경 컬러
+      scene.background = new THREE.Color("#eee");
       const canvas = document.getElementById(canvasContainer);
       const camera = new THREE.PerspectiveCamera(
         75,
@@ -108,37 +99,30 @@ export default {
         scene.add(light);
       }
 
+      // add OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
-      // controls.enableZoom = false;
       controls.enableDamping = true;
-      // controls.autoRotate = true;
       controls.enablePan = false;
 
-      let fbx;
       // add fbx model
+      let fbx;
       const fbxLoader = new FBXLoader();
       fbxLoader.load(
         modelName,
         (object) => {
-          // console.log(object);
-
           object.traverse(function (child) {
             if (child.isMesh) {
               child.castShadow = true;
-              // child.receiveShadow = true;
+              child.receiveShadow = true;
             }
           });
 
-          //크기 조절
           let scaleNum = 0.3;
           object.scale.set(scaleNum, scaleNum, scaleNum);
           object.position.y = -30;
           fbx = object;
           scene.add(fbx);
         },
-        // (xhr) => {
-        // console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-        // },
         (error) => {
           console.log(error);
         }
@@ -153,22 +137,6 @@ export default {
         requestAnimationFrame(animate);
       };
 
-      document.addEventListener("keydown", (e) => {
-        if (e.ctrlKey) {
-          // push ctrl key call cameraPos function
-          // console.log(camera.position);
-
-          // push ctrl key call canvasSize function
-          const canvas = renderer.domElement;
-          console.log(window.innerWidth, window.innerHeight);
-          console.log("canvas : " + canvas.width, canvas.height);
-          console.log(
-            "canvasclient : " + canvas.clientWidth,
-            canvas.clientHeight
-          );
-        }
-      });
-
       // mouseover event
       canvas.addEventListener("mouseover", () => {
         controls.autoRotate = true;
@@ -181,16 +149,9 @@ export default {
 
         wireframeToggle = !wireframeToggle;
         fbx.traverse((child) => {
-          // console.log(obj);
           if (child.isMesh) {
             child.material.wireframe = wireframeToggle;
           }
-          // obj.traverse((child) => {
-          //   console.log(child);
-          //   if (child.material) {
-          //     child.material.wireframe = !child.material.wireframe;
-          //   }
-          // });
         });
       });
 
