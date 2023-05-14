@@ -1,8 +1,4 @@
 <template>
-  <title>fbx loader</title>
-  <div>
-    <p>{{ no }}</p>
-  </div>
   <div ref="containerTest"></div>
 </template>
 
@@ -11,8 +7,6 @@ import { ref, onMounted } from "vue";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
-// import carFbx from "../assets/model/car.fbx";
-// import { tauntFbx } from "../assets/model/modelPack.js";
 
 export default {
   props: {
@@ -48,21 +42,15 @@ export default {
         const { doughnutFbx } = await import("../assets/model/modelPack.js");
         fbx = doughnutFbx;
       }
-      // const { tauntFbx } = await import("../assets/model/modelPack.js");
-      // let fbx = tauntFbx;
       return fbx;
     };
 
     const init = async () => {
-      // const { tauntFbx } = await import("../assets/model/modelPack.js");
-      // const fbx = tauntFbx;
-
       const fbx = await importFbx();
       scene = new THREE.Scene();
-      scene.background = new THREE.Color("#eee"); //배경 컬러
+      scene.background = new THREE.Color("#eee");
       camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 0.1, 2000);
       camera.position.set(50, 50, 100);
-      // camera.lookAt(0, 0, 0);
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(WIDTH, HEIGHT);
@@ -70,17 +58,11 @@ export default {
 
       containerTest.value.appendChild(renderer.domElement);
 
-      //카메라 컨트롤
       controls = new OrbitControls(camera, renderer.domElement);
-      // controls.autoRotate = true;
 
       const axes = new THREE.AxesHelper(150);
       scene.add(axes);
 
-      // const gridHelper = new THREE.GridHelper(240, 20);
-      // scene.add(gridHelper);
-
-      //바닥
       const geometry = new THREE.CylinderGeometry(400, 400, 5, 100);
       const material = new THREE.MeshPhongMaterial({
         color: 0xeeeeee,
@@ -90,20 +72,12 @@ export default {
       mesh.receiveShadow = true;
       scene.add(mesh);
 
-      // const boxGeometry = new THREE.BoxGeometry();
-      // const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-      // const cube = new THREE.Mesh(boxGeometry, boxMaterial);
-      // cube.position.set(0, 10, 0);
-      // scene.add(cube);
-
       {
-        //조명 넣기
         var light = new THREE.HemisphereLight(0xffffff, 0x080820, 1);
         light.position.set(100, 100, 100);
         scene.add(light);
       }
       {
-        //조명
         const color = 0xffffff;
         const intensity = 0.6;
         const light = new THREE.PointLight(color, intensity);
@@ -122,17 +96,14 @@ export default {
       }
 
       {
-        //안개
         const near = 100;
         const far = 300;
         const color = "#eeeeee";
         scene.fog = new THREE.Fog(color, near, far);
       }
-      // const fbxpath = require("../assets/model/car.fbx");
       const fbxLoader = new FBXLoader();
 
       fbxLoader.load(
-        // carFbx,
         fbx,
         (object) => {
           console.log(object);
@@ -140,17 +111,15 @@ export default {
           object.traverse(function (child) {
             if (child.isMesh) {
               child.castShadow = true;
-              // child.receiveShadow = true;
+              child.receiveShadow = true;
             }
           });
 
           //애니메이션
           if (object.animations.length > 0) {
             object.mixer = new THREE.AnimationMixer(object);
-            // console.log(object.mixer);
 
             mixers.push(object.mixer);
-            // console.log(mixers.length);
             if (mixers.length > 0) {
               action = object.mixer.clipAction(object.animations[0]);
             }
@@ -158,8 +127,6 @@ export default {
 
           object.scale.set(0.3, 0.3, 0.3);
           object.position.y = 0;
-          // object.position.x = -25;
-          // object.position.z = 55;
           scene.add(object);
         },
         (xhr) => {
@@ -177,11 +144,9 @@ export default {
     let keyCode = 0;
     const onDocumentKeyDown = (event) => {
       keyCode = event.key || event.keyCode;
-      //console.log(event.key, event.keyCode);
       if (action) {
         if (keyCode == "Control" || keyCode == 17) {
           action.play();
-          // action.setLoop(0, 1);
         } else {
           action.stop();
         }
@@ -209,9 +174,9 @@ export default {
 </script>
 
 <style scoped>
-/* body {
+body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-} */
+}
 </style>
