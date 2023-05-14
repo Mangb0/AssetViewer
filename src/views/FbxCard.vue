@@ -14,8 +14,7 @@
             flex-basis) are optional. Default is 0 1 auto.
           </p>
           <button class="btn btn--block card__btn" @click="loadFbx(index)">
-            <!-- View Fbx Detail -->
-            {{ index }}
+            View Fbx Detail
           </button>
         </div>
       </div>
