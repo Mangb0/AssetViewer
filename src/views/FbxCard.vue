@@ -14,7 +14,7 @@
             flex-basis) are optional. Default is 0 1 auto.
           </p>
           <button class="btn btn--block card__btn" @click="loadFbx(index)">
-            View Fbx Detail
+            VIEW FBX DETAIL
           </button>
         </div>
       </div>
@@ -112,7 +112,7 @@ export default {
           object.traverse(function (child) {
             if (child.isMesh) {
               child.castShadow = true;
-              child.receiveShadow = true;
+              // child.receiveShadow = true;
             }
           });
 
@@ -220,7 +220,7 @@ img {
   border: 1px solid #cccccc;
   color: #696969;
   padding: 0.5rem;
-  text-transform: lowercase;
+  text-transform: uppercase;
 }
 .btn--block {
   display: block;
