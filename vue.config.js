@@ -1,7 +1,7 @@
 const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
   outputDir: "./docs",
-  publicPath: "/<repository name>/",
+  publicPath: "/vue-threejs",
   transpileDependencies: true,
   chainWebpack: (config) => {
     config.module
