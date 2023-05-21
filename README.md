@@ -1,4 +1,4 @@
-# vue-threejs
+# AssetViewer
 
 ## Project setup
 ```
